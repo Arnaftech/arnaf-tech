@@ -61,7 +61,7 @@
 
         .hero-box {
             background: var(--accent-2); margin: 15px; border-radius: 20px;
-            padding: 60px 20px; text-align: center;
+            padding: 40px 20px; text-align: center;
             position: relative; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             flex-shrink: 0;
@@ -122,13 +122,16 @@
             margin-top: 30px; cursor: pointer; 
         }
 
-        .arnaf-svg { width: 100%; max-width: 300px; height: auto; position: relative; z-index: 5; }
+        /* SVG & Animation Styling */
+        .arnaf-svg { width: 100%; max-width: 450px; height: auto; position: relative; z-index: 5; }
         
-        /* Slowed down animation from 5s to 8s total */
         .arnaf-stroke {
-            fill: transparent; stroke: white; stroke-width: 2; stroke-dasharray: 800; stroke-dashoffset: 800;
-            font-size: 80px; font-weight: 800; animation: write 8s ease-in-out infinite;
+            fill: transparent; stroke: white; stroke-width: 1.5; stroke-dasharray: 800; stroke-dashoffset: 800;
+            animation: write 10s ease-in-out infinite;
         }
+
+        .english-text { font-size: 60px; font-weight: 800; }
+        .arabic-text { font-size: 75px; font-weight: 700; }
         
         @keyframes write { 
             0% { stroke-dashoffset: 800; fill: transparent; } 
@@ -140,6 +143,7 @@
         @media (max-width: 768px) {
             .gallery { grid-template-columns: repeat(2, 1fr); }
             .page-content { padding: 20px; }
+            .arnaf-svg { max-width: 320px; }
         }
     </style>
 </head>
@@ -157,10 +161,11 @@
             </nav>
 
             <header class="hero-box" id="heroBox">
-                <svg viewBox="0 0 400 100" class="arnaf-svg">
-                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="arnaf-stroke">ARNAF</text>
+                <svg viewBox="0 0 600 150" class="arnaf-svg">
+                    <text x="50%" y="40%" text-anchor="middle" dominant-baseline="middle" class="arnaf-stroke english-text">ARNAF</text>
+                    <text x="50%" y="85%" text-anchor="middle" dominant-baseline="middle" class="arnaf-stroke arabic-text" dir="rtl">أرناف</text>
                 </svg>
-                <div id="hero-subtitle" style="letter-spacing: 5px; font-size: 0.7rem; color: white; opacity: 0.8; position: relative; z-index: 5;">TECH STUDIO</div>
+                <div id="hero-subtitle" style="letter-spacing: 5px; font-size: 0.7rem; color: white; opacity: 0.8; position: relative; z-index: 5; margin-top: 10px;">TECH STUDIO</div>
             </header>
 
             <div class="category-menu">
@@ -213,11 +218,11 @@
             for (let i = 0; i < 35; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle star-particle';
-                const size = Math.random() * 10 + 6; 
+                const size = Math.random() * 8 + 4; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
-                p.style.left = Math.random() * 110 + '%';
-                p.style.top = Math.random() * 110 + '%';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
                 p.style.setProperty('--t-dur', (Math.random() * 3 + 2) + 's');
                 p.style.setProperty('--d-dur', (Math.random() * 15 + 10) + 's');
                 p.style.animationDelay = (Math.random() * 5) + 's';
