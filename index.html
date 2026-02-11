@@ -72,7 +72,6 @@
         .star-particle { 
             background: white;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); 
-            /* Added continuous movement and rotation */
             animation: twinkle var(--t-dur) infinite ease-in-out, 
                        drift var(--d-dur) infinite linear;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
@@ -83,7 +82,6 @@
             50% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* Continuous diagonal movement */
         @keyframes drift {
             0% { transform: translate(0, 0) rotate(0deg); }
             100% { transform: translate(-100px, -100px) rotate(360deg); }
@@ -125,11 +123,19 @@
         }
 
         .arnaf-svg { width: 100%; max-width: 300px; height: auto; position: relative; z-index: 5; }
+        
+        /* Slowed down animation from 5s to 8s total */
         .arnaf-stroke {
             fill: transparent; stroke: white; stroke-width: 2; stroke-dasharray: 800; stroke-dashoffset: 800;
-            font-size: 80px; font-weight: 800; animation: write 5s infinite;
+            font-size: 80px; font-weight: 800; animation: write 8s ease-in-out infinite;
         }
-        @keyframes write { 0%, 10% { stroke-dashoffset: 800; fill: transparent; } 50% { stroke-dashoffset: 0; fill: white; } 100% { stroke-dashoffset: 800; fill: transparent; } }
+        
+        @keyframes write { 
+            0% { stroke-dashoffset: 800; fill: transparent; } 
+            40% { stroke-dashoffset: 0; fill: transparent; } 
+            55%, 85% { stroke-dashoffset: 0; fill: white; } 
+            100% { stroke-dashoffset: 800; fill: transparent; } 
+        }
 
         @media (max-width: 768px) {
             .gallery { grid-template-columns: repeat(2, 1fr); }
@@ -204,21 +210,17 @@
     <script>
         function createParticles() {
             const hero = document.getElementById('heroBox');
-            // Increased star count for better visuals
             for (let i = 0; i < 35; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle star-particle';
                 const size = Math.random() * 10 + 6; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
-                p.style.left = Math.random() * 110 + '%'; // Slight overflow for drift
+                p.style.left = Math.random() * 110 + '%';
                 p.style.top = Math.random() * 110 + '%';
-                
-                // Randomize animation speeds for each star
                 p.style.setProperty('--t-dur', (Math.random() * 3 + 2) + 's');
                 p.style.setProperty('--d-dur', (Math.random() * 15 + 10) + 's');
                 p.style.animationDelay = (Math.random() * 5) + 's';
-                
                 hero.appendChild(p);
             }
         }
