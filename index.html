@@ -32,7 +32,7 @@
             color: var(--text);
             display: flex; justify-content: center; align-items: center;
             padding: 20px;
-            user-select: none; /* Prevents text highlighting */
+            user-select: none; 
         }
 
         .outer-ring {
@@ -71,7 +71,28 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* ISLAMIC ELEMENTS */
+        /* FALLING PARTICLES */
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+            animation: fall linear infinite;
+        }
+
+        .star-particle {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+        }
+
         .islamic-pattern {
             position: absolute;
             top: 50%; left: 50%;
@@ -79,7 +100,7 @@
             width: 350px; height: 350px;
             opacity: 0.2;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .moon {
@@ -88,13 +109,6 @@
             width: 50px; height: 50px;
             filter: drop-shadow(0 0 10px white);
             animation: float 4s ease-in-out infinite;
-        }
-
-        .star-small {
-            position: absolute;
-            bottom: 15%; left: 15%;
-            width: 40px; height: 40px;
-            animation: float 5s ease-in-out infinite reverse;
         }
 
         @keyframes float {
@@ -112,7 +126,7 @@
             to { transform: rotate(360deg); }
         }
 
-        .arnaf-svg { width: 100%; max-width: 500px; height: auto; position: relative; z-index: 1; }
+        .arnaf-svg { width: 100%; max-width: 500px; height: auto; position: relative; z-index: 2; }
 
         .arnaf-stroke {
             fill: transparent;
@@ -137,7 +151,7 @@
             font-size: 0.9rem; letter-spacing: 12px; text-transform: uppercase;
             font-weight: 400; margin-top: 10px; color: rgba(255,255,255,0.8);
             animation: fadeInOut 5s ease-in-out infinite;
-            position: relative; z-index: 1;
+            position: relative; z-index: 2;
         }
 
         @keyframes fadeInOut {
@@ -165,7 +179,6 @@
             .hero-box { padding: 60px 10px; }
             .arnaf-stroke { font-size: 60px; }
             .sub-brand { font-size: 0.6rem; letter-spacing: 6px; }
-            .islamic-pattern { width: 250px; height: 250px; }
         }
     </style>
 </head>
@@ -193,10 +206,6 @@
                 <div class="islamic-pattern">
                     <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                    </svg>
-
-                    <svg class="star-small" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
-                        <path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" />
                     </svg>
 
                     <svg class="rotating-center" viewBox="0 0 100 100" style="width: 100%; height: 100%;">
@@ -239,14 +248,34 @@
     </div>
 
     <script>
+        /* CREATE FALLING BUBBLES AND STARS */
+        const hero = document.getElementById('hero');
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                const isStar = Math.random() > 0.5;
+                p.className = isStar ? 'particle star-particle' : 'particle';
+                
+                const size = Math.random() * 8 + 4;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                
+                hero.appendChild(p);
+            }
+        }
+        createParticles();
+
         /* SECURITY: DISABLE RIGHT CLICK & INSPECT KEYS */
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
-            if (e.keyCode == 123) return false; // F12
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
         };
 
         const scrollBox = document.getElementById('mainScroll');
