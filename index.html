@@ -69,25 +69,37 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* MOON */
+        /* MOVING MOON */
         .moon {
-            position: absolute; top: 20px; right: 40px;
+            position: absolute; 
+            top: 20px; 
+            right: -60px; /* Start outside the box */
             width: 45px; height: 45px;
             background: #f1f5f9; border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
             z-index: 2;
+            animation: moonWalk 40s linear infinite, moonGlow 4s ease-in-out infinite;
         }
         .moon::after {
             content: ''; position: absolute; top: -5px; left: 10px;
             width: 40px; height: 40px; background: var(--accent-2); border-radius: 50%;
         }
 
-        /* PARTICLES (Stars & Rain) */
-        .particle {
-            position: absolute; background: rgba(255, 255, 255, 0.4); 
-            pointer-events: none; z-index: 1;
+        @keyframes moonWalk {
+            0% { right: -60px; top: 15px; }
+            50% { top: 35px; } /* Slight curve down */
+            100% { right: 110%; top: 15px; } /* Exit through the left side */
         }
+
+        @keyframes moonGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(255, 255, 255, 0.7); }
+        }
+
+        /* PARTICLES */
+        .particle { position: absolute; pointer-events: none; z-index: 1; }
         .star-particle { 
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); 
             animation: fall linear infinite;
         }
@@ -121,8 +133,7 @@
 
         .page-content {
             flex-grow: 1; position: relative;
-            padding: 20px 40px; overflow-y: auto;
-            scrollbar-width: none;
+            padding: 20px 40px; overflow-y: auto; scrollbar-width: none;
         }
         .page-content::-webkit-scrollbar { display: none; }
 
@@ -153,7 +164,6 @@
         @media (max-width: 768px) {
             .gallery { grid-template-columns: repeat(2, 1fr); }
             .page-content { padding: 20px; }
-            .moon { transform: scale(0.7); right: 20px; }
         }
     </style>
 </head>
@@ -190,15 +200,13 @@
                     <h2 id="home-title" style="font-size: 2rem;">Welcome to the Future.</h2>
                     <p id="home-desc" style="margin-top: 15px; opacity: 0.7; line-height: 1.6;">
                         Arnaf Tech is a specialized studio focusing on high-end digital experiences. 
-                        Select a category to learn more about our philosophy and products.
                     </p>
                 </div>
 
                 <div id="about" class="page">
                     <h2 id="about-title">Built for the Ummah.</h2>
                     <p id="about-desc" style="margin-top: 15px; opacity: 0.7; line-height: 1.6;">
-                        We merge modern design with Islamic values. Our mission is to provide clean, 
-                        ad-free digital tools for your spiritual journey.
+                        We merge modern design with Islamic values.
                     </p>
                 </div>
 
@@ -225,10 +233,8 @@
     </div>
 
     <script>
-        // PARTICLE GENERATOR (Stars + Rain)
         function createParticles() {
             const hero = document.getElementById('heroBox');
-            // Create 15 Stars
             for (let i = 0; i < 15; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle star-particle';
@@ -236,12 +242,10 @@
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
                 p.style.left = Math.random() * 100 + '%';
-                p.style.top = '-20px';
                 p.style.animationDuration = (Math.random() * 3 + 2) + 's';
                 p.style.animationDelay = (Math.random() * 5) + 's';
                 hero.appendChild(p);
             }
-            // Create 20 Rain Drops
             for (let i = 0; i < 20; i++) {
                 const r = document.createElement('div');
                 r.className = 'particle rain-drop';
@@ -253,39 +257,22 @@
         }
         createParticles();
 
-        // PAGE NAVIGATION
         function openPage(pageId, elmnt) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            const menuItems = document.querySelectorAll('.cat-item');
-            menuItems.forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.cat-item').forEach(item => item.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             elmnt.classList.add('active');
         }
 
-        // THEME
         function toggleTheme() {
             const body = document.body;
             body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         }
 
-        // LANGUAGE DATA
         const langData = {
-            en: { 
-                homeT: "Welcome to the Future.", homeD: "Arnaf Tech is a specialized studio focusing on high-end digital experiences...",
-                aboutT: "Built for the Ummah.", aboutD: "We merge modern design with Islamic values. Our mission is to provide clean...",
-                projT: "Muslim Companion", contactT: "Get In Touch"
-            },
-            ar: { 
-                homeT: "أهلاً بك في المستقبل", homeD: "أرناف تيك هو استوديو متخصص يركز على التجارب الرقمية الراقية...",
-                aboutT: "بنيت للأمة", aboutD: "نحن نجمع بين التصميم الحديث والقيم الإسلامية. مهمتنا هي توفير أدوات رقمية...",
-                projT: "رفيق المسلم", contactT: "تواصل معنا"
-            },
-            ur: { 
-                homeT: "مستقبل میں خوش آمدید", homeD: "ارناف ٹیک ایک خصوصی اسٹوڈیو ہے جو جدید ترین ڈیجیٹل تجربات پر توجہ مرکوز کرتا ہے...",
-                aboutT: "امت کے لیے بنایا گیا", aboutD: "ہم جدید ڈیزائن کو اسلامی اقدار کے ساتھ جوڑتے ہیں۔ ہمارا مشن آپ کے روحانی سفر کے لیے صاف ستھرا ٹولز فراہم کرنا ہے۔",
-                projT: "مسلم ساتھی", contactT: "رابطہ کریں"
-            }
+            en: { homeT: "Welcome to the Future.", homeD: "Arnaf Tech is a specialized studio focusing on high-end digital experiences.", aboutT: "Built for the Ummah.", aboutD: "We merge modern design with Islamic values.", projT: "Muslim Companion", contactT: "Get In Touch" },
+            ar: { homeT: "أهلاً بك في المستقبل", homeD: "أرناف تيك هو استوديو متخصص يركز على التجارب الرقمية الراقية.", aboutT: "بنيت للأمة", aboutD: "نحن نجمع بين التصميم الحديث والقيم الإسلامية.", projT: "رفيق المسلم", contactT: "تواصل معنا" },
+            ur: { homeT: "مستقبل میں خوش آمدید", homeD: "ارناف ٹیک ایک خصوصی اسٹوڈیو ہے جو جدید ترین ڈیجیٹل تجربات پر توجہ مرکوز کرتا ہے۔", aboutT: "امت کے لیے بنایا گیا", aboutD: "ہم جدید ڈیزائن کو اسلامی اقدار کے ساتھ جوڑتے ہیں۔", projT: "مسلم ساتھی", contactT: "رابطہ کریں" }
         };
 
         function setLang(lang) {
@@ -296,9 +283,7 @@
             document.getElementById('about-desc').innerText = d.aboutD;
             document.getElementById('proj-title').innerText = d.projT;
             document.getElementById('contact-title').innerText = d.contactT;
-            
             document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
-            document.body.style.fontFamily = (lang === 'ur') ? '"Noto Nastaliq Urdu", "Plus Jakarta Sans", serif' : '"Plus Jakarta Sans", sans-serif';
         }
 
         document.addEventListener('contextmenu', e => e.preventDefault());
