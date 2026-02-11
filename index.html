@@ -71,23 +71,45 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* ISLAMIC GEOMETRIC BACKGROUND ANIMATION */
+        /* ISLAMIC ELEMENTS */
         .islamic-pattern {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            opacity: 0.15;
+            width: 350px; height: 350px;
+            opacity: 0.2;
             pointer-events: none;
-            animation: patternRotate 20s linear infinite;
             z-index: 0;
         }
 
+        .moon {
+            position: absolute;
+            top: 15%; right: 15%;
+            width: 50px; height: 50px;
+            filter: drop-shadow(0 0 10px white);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .star-small {
+            position: absolute;
+            bottom: 15%; left: 15%;
+            width: 40px; height: 40px;
+            animation: float 5s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+
+        .rotating-center {
+            transform-origin: center;
+            animation: patternRotate 25s linear infinite;
+        }
+
         @keyframes patternRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .arnaf-svg { width: 100%; max-width: 500px; height: auto; position: relative; z-index: 1; }
@@ -143,7 +165,7 @@
             .hero-box { padding: 60px 10px; }
             .arnaf-stroke { font-size: 60px; }
             .sub-brand { font-size: 0.6rem; letter-spacing: 6px; }
-            .islamic-pattern { width: 200px; height: 200px; }
+            .islamic-pattern { width: 250px; height: 250px; }
         }
     </style>
 </head>
@@ -168,11 +190,20 @@
             </nav>
 
             <header class="hero-box" id="hero">
-                <svg class="islamic-pattern" viewBox="0 0 100 100">
-                    <path fill="none" stroke="white" stroke-width="0.5" d="M50 5 L62 35 L95 35 L68 55 L78 85 L50 65 L22 85 L32 55 L5 35 L38 35 Z" />
-                    <path fill="none" stroke="white" stroke-width="0.3" transform="rotate(45 50 50)" d="M50 5 L62 35 L95 35 L68 55 L78 85 L50 65 L22 85 L32 55 L5 35 L38 35 Z" />
-                    <circle cx="50" cy="50" r="10" fill="none" stroke="white" stroke-width="0.2" />
-                </svg>
+                <div class="islamic-pattern">
+                    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+
+                    <svg class="star-small" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
+                        <path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" />
+                    </svg>
+
+                    <svg class="rotating-center" viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                        <path fill="none" stroke="white" stroke-width="0.3" d="M50 5 L62 35 L95 35 L68 55 L78 85 L50 65 L22 85 L32 55 L5 35 L38 35 Z" opacity="0.5"/>
+                        <path fill="none" stroke="white" stroke-width="0.2" transform="rotate(45 50 50)" d="M50 5 L62 35 L95 35 L68 55 L78 85 L50 65 L22 85 L32 55 L5 35 L38 35 Z" />
+                    </svg>
+                </div>
 
                 <svg viewBox="0 0 400 100" class="arnaf-svg">
                     <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="arnaf-stroke">
