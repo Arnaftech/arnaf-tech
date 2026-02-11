@@ -22,7 +22,7 @@
             --accent: #0d9488;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         html, body { overflow: hidden; width: 100%; height: 100%; }
 
         body { 
@@ -56,55 +56,85 @@
         .dot { width: 8px; height: 8px; background: var(--text); opacity: 0.2; border-radius: 50%; cursor: pointer; }
         .dot.active { opacity: 1; background: var(--accent); box-shadow: 0 0 10px var(--accent); transform: scale(1.4); }
 
-        /* HERO BOX WITH WRITING ANIMATION */
+        /* HERO BOX - WALKING & WRITING */
         .hero-box {
             background: var(--accent-2); margin: 20px; border-radius: 20px;
-            padding: 100px 20px; text-align: center;
+            padding: 120px 20px; text-align: center;
             position: relative; overflow: hidden;
             display: flex; justify-content: center; align-items: center;
         }
 
         .character {
-            width: 100px; height: auto; position: absolute; bottom: 0; z-index: 6;
+            width: 140px; height: auto; position: absolute; bottom: -10px; z-index: 10;
         }
 
-        .char-woman { left: 5%; animation: slideInWoman 1.5s ease-out forwards; }
-        .char-man { right: 5%; animation: slideInMan 1.5s ease-out forwards; }
+        /* Walking Animation */
+        @keyframes walkInWoman {
+            0% { left: -150px; opacity: 0; }
+            30% { opacity: 1; }
+            100% { left: 15%; transform: translateY(-5px); }
+        }
+        @keyframes walkInMan {
+            0% { right: -150px; opacity: 0; }
+            30% { opacity: 1; }
+            100% { right: 15%; transform: translateY(-5px); }
+        }
+        @keyframes bobbing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-        @keyframes slideInWoman { from { transform: translateX(-100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes slideInMan { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .char-woman { 
+            animation: walkInWoman 2s ease-out forwards, bobbing 0.5s infinite ease-in-out; 
+        }
+        .char-man { 
+            animation: walkInMan 2s ease-out forwards, bobbing 0.5s infinite ease-in-out; 
+            animation-delay: 0.2s, 0s;
+        }
 
-        /* SVG WRITING EFFECT */
+        /* WRITING SVG */
         .writing-svg {
-            width: 300px; height: auto; z-index: 5;
+            width: 350px; z-index: 5;
         }
-        .arnaf-path {
+        .arnaf-text {
             fill: none;
             stroke: white;
-            stroke-width: 2;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            animation: writeText 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
-            animation-delay: 1s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 80px;
+            font-weight: 800;
+            animation: handWrite 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 1.5s; /* Starts after they finish walking */
         }
 
-        @keyframes writeText {
-            to { stroke-dashoffset: 0; }
+        @keyframes handWrite {
+            to { stroke-dashoffset: 0; fill: rgba(255,255,255,1); }
         }
 
+        /* Nav & UI */
         nav {
             padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; background: var(--glass); backdrop-filter: blur(15px); z-index: 100;
         }
-        .nav-link { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; cursor: pointer; opacity: 0.6; }
+        .nav-link { font-size: 0.7rem; font-weight: 700; cursor: pointer; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; }
 
         .content { padding: 30px; max-width: 900px; margin: 0 auto; }
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
-        .gallery img { width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .gallery img { width: 100%; border-radius: 12px; }
 
-        .contact-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 50px; text-align: center; color: var(--accent); font-weight: 700; }
+        .contact-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 50px; text-align: center; color: var(--accent); font-weight: 800; }
 
         footer { text-align: center; padding: 40px; opacity: 0.4; font-size: 0.7rem; }
+
+        @media (max-width: 768px) {
+            .character { width: 90px; }
+            .writing-svg { width: 220px; }
+            .gallery { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -128,25 +158,25 @@
             </nav>
 
             <header class="hero-box" id="hero">
-                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" class="character char-woman" alt="Woman">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Fatima&top=hijab&hijabColor=262626&mouth=smile" class="character char-woman" alt="Woman">
                 
-                <svg viewBox="0 0 400 100" class="writing-svg">
-                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="arnaf-path" font-family="Arial" font-size="70" font-weight="900">
-                      ARNAF
-                    </text>
+                <svg viewBox="0 0 400 120" class="writing-svg">
+                    <text x="50%" y="60%" text-anchor="middle" class="arnaf-text">ARNAF</text>
                 </svg>
                 
-                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140061.png" class="character char-man" alt="Man">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmed&top=shortHair&facialHair=magnum&facialHairProbability=100&mouth=smile" class="character char-man" alt="Man">
             </header>
 
             <main class="content">
                 <section id="vision" style="margin-bottom: 80px;">
-                    <h2 id="about-title" style="font-size: 2rem; margin-bottom: 15px;">Built for the Ummah.</h2>
-                    <p id="about-desc" style="opacity: 0.7;">ARNAF TECH merges modern design with Islamic values.</p>
+                    <h2 id="about-title" style="font-size: 2.2rem; margin-bottom: 15px;">Built for the Ummah.</h2>
+                    <p id="about-desc" style="opacity: 0.7; font-size: 1.1rem; line-height: 1.8;">
+                        ARNAF TECH merges modern design with Islamic values. Our mission is to provide clean, ad-free digital tools for your spiritual journey.
+                    </p>
                 </section>
 
                 <section id="projects" style="margin-bottom: 80px;">
-                    <h2 style="font-size: 1.6rem;">Muslim Companion</h2>
+                    <h2 style="font-size: 1.8rem; margin-bottom: 20px;">Muslim Companion</h2>
                     <div class="gallery">
                         <img src="android_1.png" alt="1"><img src="android_2.png" alt="2"><img src="android_3.png" alt="3">
                         <img src="android_4.png" alt="4"><img src="android_5.png" alt="5"><img src="android_6.png" alt="6">
@@ -158,7 +188,7 @@
                 </section>
             </main>
 
-            <footer>ARNAF TECH &copy; 2026</footer>
+            <footer>ARNAF TECH &copy; 2026 | CRAFTED WITH IHSAN</footer>
         </div>
     </div>
 
