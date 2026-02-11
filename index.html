@@ -59,10 +59,9 @@
             overflow-x: hidden;
             position: relative;
             backdrop-filter: blur(10px);
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
 
-        /* Hide Scrollbar */
         .main-container::-webkit-scrollbar { display: none; }
 
         /* DOTTED SCROLLER UI */
@@ -97,10 +96,14 @@
         .hero-box {
             background: var(--accent-2);
             margin: 20px; border-radius: 20px;
-            padding: 70px 20px;
+            padding: 100px 20px;
             text-align: center;
             position: relative; overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .hero-box::before {
@@ -115,12 +118,45 @@
             to { transform: rotate(360deg); }
         }
 
-        .brand-name {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 800; color: white;
+        /* ARNAF Writing Animation */
+        .arnaf-svg {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+
+        .arnaf-stroke {
+            fill: transparent;
+            stroke: white;
+            stroke-width: 2.5;
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            font-size: 90px;
+            font-weight: 800;
             letter-spacing: -3px;
-            text-shadow: 5px 5px 0px rgba(0,0,0,0.1);
-            transform: perspective(500px) rotateX(10deg);
+            animation: writeArnaf 2.5s ease-out forwards;
+        }
+
+        @keyframes writeArnaf {
+            70% { fill: transparent; stroke-dashoffset: 0; }
+            100% { fill: white; stroke-dashoffset: 0; }
+        }
+
+        .sub-brand {
+            font-size: 0.9rem;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-top: 10px;
+            color: rgba(255,255,255,0.8);
+            opacity: 0;
+            animation: fadeInSub 1s ease-out forwards;
+            animation-delay: 2.2s;
+        }
+
+        @keyframes fadeInSub {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Nav & Controls */
@@ -162,8 +198,9 @@
         @media (max-width: 768px) {
             .gallery { grid-template-columns: repeat(2, 1fr); }
             body { padding: 8px; }
-            .hero-box { padding: 40px 10px; margin: 10px; }
-            .dot-nav { right: 10px; }
+            .hero-box { padding: 60px 10px; margin: 10px; }
+            .arnaf-stroke { font-size: 60px; }
+            .sub-brand { font-size: 0.6rem; letter-spacing: 6px; }
         }
     </style>
 </head>
@@ -188,8 +225,12 @@
             </nav>
 
             <header class="hero-box" id="hero">
-                <h1 class="brand-name">ARNAF</h1>
-                <p style="color: rgba(255,255,255,0.7); letter-spacing: 8px; font-size: 0.7rem; margin-top: 5px;">PREMIUM STUDIO</p>
+                <svg viewBox="0 0 400 100" class="arnaf-svg">
+                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="arnaf-stroke">
+                        ARNAF
+                    </text>
+                </svg>
+                <div class="sub-brand">Tech Studio</div>
             </header>
 
             <main class="content">
@@ -229,12 +270,10 @@
         const dots = document.querySelectorAll('.dot');
         const sections = ['hero', 'vision', 'projects', 'support'];
 
-        // Scroll logic
         function goSec(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Dot Update Logic
         scrollBox.addEventListener('scroll', () => {
             let activeId = "";
             sections.forEach(id => {
