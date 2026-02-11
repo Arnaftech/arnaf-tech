@@ -72,18 +72,21 @@
         .star-particle { 
             background: white;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); 
-            animation: twinkle drift linear infinite;
+            /* Added continuous movement and rotation */
+            animation: twinkle var(--t-dur) infinite ease-in-out, 
+                       drift var(--d-dur) infinite linear;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%, 100% { opacity: 0.2; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1.1); }
         }
 
+        /* Continuous diagonal movement */
         @keyframes drift {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-20px); }
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-100px, -100px) rotate(360deg); }
         }
 
         .category-menu {
@@ -201,16 +204,21 @@
     <script>
         function createParticles() {
             const hero = document.getElementById('heroBox');
-            for (let i = 0; i < 25; i++) {
+            // Increased star count for better visuals
+            for (let i = 0; i < 35; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle star-particle';
-                const size = Math.random() * 12 + 8; 
+                const size = Math.random() * 10 + 6; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.top = Math.random() * 100 + '%';
-                p.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                p.style.animationDelay = (Math.random() * 3) + 's';
+                p.style.left = Math.random() * 110 + '%'; // Slight overflow for drift
+                p.style.top = Math.random() * 110 + '%';
+                
+                // Randomize animation speeds for each star
+                p.style.setProperty('--t-dur', (Math.random() * 3 + 2) + 's');
+                p.style.setProperty('--d-dur', (Math.random() * 15 + 10) + 's');
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                
                 hero.appendChild(p);
             }
         }
@@ -254,26 +262,18 @@
 
         function setLang(lang) {
             const d = langData[lang];
-            
-            // Nav & Hero
             document.getElementById('nav-theme').innerText = d.theme;
             document.getElementById('hero-subtitle').innerText = d.studio;
-
-            // Menu Items
             document.getElementById('menu-home').innerText = d.m1;
             document.getElementById('menu-about').innerText = d.m2;
             document.getElementById('menu-projects').innerText = d.m3;
             document.getElementById('menu-contact').innerText = d.m4;
-
-            // Page Content
             document.getElementById('home-title').innerText = d.homeT;
             document.getElementById('home-desc').innerText = d.homeD;
             document.getElementById('about-title').innerText = d.aboutT;
             document.getElementById('about-desc').innerText = d.aboutD;
             document.getElementById('proj-title').innerText = d.projT;
             document.getElementById('contact-title').innerText = d.contactT;
-            
-            // Direction Support (RTL/LTR)
             document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
         }
 
