@@ -22,131 +22,98 @@
             overflow-x: hidden;
         }
 
-        /* Language Switcher Styles */
+        /* Language Switcher */
         .lang-switcher {
-            display: flex;
-            gap: 10px;
+            display: flex; gap: 8px;
             background: rgba(255,255,255,0.05);
-            padding: 5px;
-            border-radius: 50px;
+            padding: 4px; border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .lang-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: 0.3s;
+            background: transparent; border: none; color: white;
+            padding: 4px 10px; border-radius: 50px; cursor: pointer;
+            font-size: 0.7rem; font-weight: 600; transition: 0.3s;
         }
+        .lang-btn.active { background: var(--accent); color: #040a18; }
 
-        .lang-btn.active {
-            background: var(--accent);
-            color: #040a18;
-        }
-
-        /* 3D LOGO & NAV */
+        /* Navigation */
         nav { 
-            padding: 15px 8%; 
+            padding: 12px 8%; 
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; background: rgba(4, 10, 24, 0.9);
             backdrop-filter: blur(15px); z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        
         .logo-3d {
-            font-size: 1.8rem; font-weight: 800; letter-spacing: 3px;
+            font-size: 1.5rem; font-weight: 800; letter-spacing: 2px;
             color: var(--text-main);
-            text-shadow: 0 1px 0 #64748b, 0 3px 0 #1e293b, 0 6px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 1px 0 #64748b, 0 2px 0 #1e293b, 0 4px 8px rgba(0,0,0,0.8);
         }
 
-        .nav-links { display: flex; align-items: center; gap: 20px; }
-        .nav-links a {
-            color: var(--text-main); text-decoration: none;
-            font-size: 0.8rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1px;
-            opacity: 0.7; transition: 0.3s;
-        }
-        .nav-links a:hover { opacity: 1; color: var(--accent); }
-
-        /* HERO SECTION */
+        /* COMPACT HERO SECTION */
         .hero {
-            height: 80vh; display: flex; flex-direction: column;
+            height: 50vh; /* Reduced from 80vh */
+            display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
         }
-
         .hero-title {
-            font-size: clamp(4rem, 15vw, 10rem); font-weight: 800;
+            font-size: clamp(3rem, 10vw, 6rem); /* Reduced size */
+            font-weight: 800;
             background: linear-gradient(to bottom, #fff, var(--accent));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            margin-bottom: 5px;
         }
 
-        /* CONTENT SECTIONS */
-        .section { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
+        /* Sections */
+        .section { padding: 40px 8%; max-width: 1100px; margin: 0 auto; }
         .card {
             background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px; padding: 40px; backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 30px; backdrop-filter: blur(10px);
         }
 
         .gallery {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px; margin-top: 30px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px; margin-top: 20px;
         }
-        .gallery img {
-            width: 100%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.4s;
-        }
+        .gallery img { width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .gallery img:hover { transform: scale(1.05); border-color: var(--accent); }
 
-        /* Language Specific Fonts */
         [lang="ur"] { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; }
         [lang="ar"] { font-family: 'Amiri', serif; direction: rtl; }
-
-        footer { text-align: center; padding: 40px; opacity: 0.5; font-size: 0.8rem; }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; } /* Hide text links on mobile for space */
-        }
+        
+        footer { text-align: center; padding: 30px; opacity: 0.5; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo-3d">ARNAF</div>
-        <div class="nav-links">
-            <a href="#about" data-key="nav_about">About</a>
-            <a href="#projects" data-key="nav_projects">Projects</a>
-            <div class="lang-switcher">
-                <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
-                <button class="lang-btn" onclick="setLanguage('ar')">عربي</button>
-                <button class="lang-btn" onclick="setLanguage('ur')">اردو</button>
-            </div>
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn" onclick="setLanguage('ar')">عربي</button>
+            <button class="lang-btn" onclick="setLanguage('ur')">اردو</button>
         </div>
     </nav>
 
     <header class="hero">
         <h1 class="hero-title">ARNAF</h1>
-        <p id="hero-sub" style="letter-spacing: 5px; color: var(--accent); font-weight: 600;">TECH STUDIO</p>
+        <p id="hero-sub" style="letter-spacing: 4px; color: var(--accent); font-weight: 600; font-size: 0.9rem;">TECH STUDIO</p>
     </header>
 
     <section class="section" id="about">
         <div class="card">
-            <h2 id="about-title" style="font-size: 2.5rem; margin-bottom: 20px;">Built for the Ummah.</h2>
-            <p id="about-text" style="color: #94a3b8; font-size: 1.1rem; line-height: 1.8;">
-                ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications. 
-                We believe that modern technology should serve our faith with beauty and precision.
+            <h2 id="about-title" style="font-size: 1.8rem; margin-bottom: 15px;">Built for the Ummah.</h2>
+            <p id="about-text" style="color: #94a3b8; font-size: 1rem; line-height: 1.6;">
+                ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications.
             </p>
         </div>
     </section>
 
     <section class="section" id="projects">
-        <h2 id="proj-title" style="text-align: center; margin-bottom: 40px; font-size: 2rem;">OUR PROJECTS</h2>
         <div class="card">
-            <h3 style="color: var(--accent);">ARNAF Muslim Companion</h3>
+            <h3 id="proj-title" style="margin-bottom: 20px; font-size: 1.4rem; color: var(--accent);">OUR PROJECTS</h3>
             <div class="gallery">
                 <img src="android_1.png" alt="1"><img src="android_2.png" alt="2">
                 <img src="android_3.png" alt="3"><img src="android_4.png" alt="4">
@@ -156,55 +123,44 @@
     </section>
 
     <footer id="footer-text">
-        ARNAF TECH | MADE WITH IHSAN &copy; 2026
+        ARNAF TECH &copy; 2026
     </footer>
 
     <script>
         const translations = {
             en: {
-                nav_about: "About",
-                nav_projects: "Projects",
                 hero_sub: "TECH STUDIO",
                 about_title: "Built for the Ummah.",
                 about_text: "ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications.",
                 proj_title: "OUR PROJECTS",
-                footer: "ARNAF TECH | MADE WITH IHSAN © 2026"
+                footer: "ARNAF TECH © 2026"
             },
             ar: {
-                nav_about: "حول",
-                nav_projects: "المشاريع",
                 hero_sub: "استوديو التقنية",
                 about_title: "بنيت للأمة",
                 about_text: "أرناف تيك هو استوديو رقمي مخصص لإنشاء تطبيقات إسلامية عالية الجودة وخالية من الإعلانات.",
                 proj_title: "مشاريعنا",
-                footer: "أرناف تيك | صنع بإحسان © ٢٠٢٦"
+                footer: "أرناف تيك © ٢٠٢٦"
             },
             ur: {
-                nav_about: "بارے میں",
-                nav_projects: "پروجیکٹس",
                 hero_sub: "ٹیک اسٹوڈیو",
                 about_title: "امت کے لیے بنایا گیا",
                 about_text: "ارناف ٹیک ایک ڈیجیٹل اسٹوڈیو ہے جو اعلیٰ معیار کی، اشتہارات سے پاک اسلامی ایپلی کیشنز بنانے کے لیے وقف ہے۔",
                 proj_title: "ہمارے پروجیکٹس",
-                footer: "ارناف ٹیک | احسان کے ساتھ بنایا گیا © ٢٠٢٦"
+                footer: "ارناف ٹیک © ٢٠٢٦"
             }
         };
 
         function setLanguage(lang) {
-            // Update Active Button
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Update Text
-            document.querySelector('[data-key="nav_about"]').innerText = translations[lang].nav_about;
-            document.querySelector('[data-key="nav_projects"]').innerText = translations[lang].nav_projects;
             document.getElementById('hero-sub').innerText = translations[lang].hero_sub;
             document.getElementById('about-title').innerText = translations[lang].about_title;
             document.getElementById('about-text').innerText = translations[lang].about_text;
             document.getElementById('proj-title').innerText = translations[lang].proj_title;
             document.getElementById('footer-text').innerText = translations[lang].footer;
 
-            // Update Direction and Font
             if(lang === 'ar' || lang === 'ur') {
                 document.body.setAttribute('lang', lang);
                 document.body.style.direction = 'rtl';
