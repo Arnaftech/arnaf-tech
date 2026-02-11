@@ -59,7 +59,6 @@
         }
         .nav-link { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; opacity: 0.6; }
 
-        /* HERO BOX */
         .hero-box {
             background: var(--accent-2); margin: 15px; border-radius: 20px;
             padding: 60px 20px; text-align: center;
@@ -69,54 +68,22 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* MOVING MOON */
-        .moon {
-            position: absolute; 
-            top: 20px; 
-            right: -60px; /* Start outside the box */
-            width: 45px; height: 45px;
-            background: #f1f5f9; border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-            z-index: 2;
-            animation: moonWalk 40s linear infinite, moonGlow 4s ease-in-out infinite;
-        }
-        .moon::after {
-            content: ''; position: absolute; top: -5px; left: 10px;
-            width: 40px; height: 40px; background: var(--accent-2); border-radius: 50%;
-        }
-
-        @keyframes moonWalk {
-            0% { right: -60px; top: 15px; }
-            50% { top: 35px; } /* Slight curve down */
-            100% { right: 110%; top: 15px; } /* Exit through the left side */
-        }
-
-        @keyframes moonGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(255, 255, 255, 0.7); }
-        }
-
-        /* PARTICLES */
         .particle { position: absolute; pointer-events: none; z-index: 1; }
         .star-particle { 
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); 
-            animation: fall linear infinite;
-        }
-        .rain-drop {
-            width: 1px; height: 15px; background: linear-gradient(transparent, #ffffff);
-            opacity: 0.3; animation: rain linear infinite;
+            background: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); 
+            animation: twinkle drift linear infinite;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
-        @keyframes rain {
-            0% { transform: translateY(-100px); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(400px); opacity: 0; }
+
+        @keyframes drift {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-20px); }
         }
 
         .category-menu {
@@ -172,7 +139,7 @@
     <div class="outer-ring">
         <div class="main-container">
             <nav>
-                <div class="nav-link" onclick="toggleTheme()">Theme</div>
+                <div class="nav-link" id="nav-theme" onclick="toggleTheme()">Theme</div>
                 <div style="display: flex; gap: 15px;">
                     <span class="nav-link" onclick="setLang('en')">EN</span>
                     <span class="nav-link" onclick="setLang('ar')">AR</span>
@@ -181,18 +148,17 @@
             </nav>
 
             <header class="hero-box" id="heroBox">
-                <div class="moon"></div>
                 <svg viewBox="0 0 400 100" class="arnaf-svg">
                     <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="arnaf-stroke">ARNAF</text>
                 </svg>
-                <div style="letter-spacing: 5px; font-size: 0.7rem; color: white; opacity: 0.8; position: relative; z-index: 5;">TECH STUDIO</div>
+                <div id="hero-subtitle" style="letter-spacing: 5px; font-size: 0.7rem; color: white; opacity: 0.8; position: relative; z-index: 5;">TECH STUDIO</div>
             </header>
 
             <div class="category-menu">
-                <div class="cat-item active" onclick="openPage('home', this)">Home</div>
-                <div class="cat-item" onclick="openPage('about', this)">About</div>
-                <div class="cat-item" onclick="openPage('projects', this)">Projects</div>
-                <div class="cat-item" onclick="openPage('contact', this)">Contact</div>
+                <div id="menu-home" class="cat-item active" onclick="openPage('home', this)">Home</div>
+                <div id="menu-about" class="cat-item" onclick="openPage('about', this)">About</div>
+                <div id="menu-projects" class="cat-item" onclick="openPage('projects', this)">Projects</div>
+                <div id="menu-contact" class="cat-item" onclick="openPage('contact', this)">Contact</div>
             </div>
 
             <div class="page-content">
@@ -235,24 +201,17 @@
     <script>
         function createParticles() {
             const hero = document.getElementById('heroBox');
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 25; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle star-particle';
-                const size = Math.random() * 5 + 3;
+                const size = Math.random() * 12 + 8; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
                 p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                p.style.animationDelay = (Math.random() * 5) + 's';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                p.style.animationDelay = (Math.random() * 3) + 's';
                 hero.appendChild(p);
-            }
-            for (let i = 0; i < 20; i++) {
-                const r = document.createElement('div');
-                r.className = 'particle rain-drop';
-                r.style.left = Math.random() * 100 + '%';
-                r.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
-                r.style.animationDelay = (Math.random() * 2) + 's';
-                hero.appendChild(r);
             }
         }
         createParticles();
@@ -270,19 +229,51 @@
         }
 
         const langData = {
-            en: { homeT: "Welcome to the Future.", homeD: "Arnaf Tech is a specialized studio focusing on high-end digital experiences.", aboutT: "Built for the Ummah.", aboutD: "We merge modern design with Islamic values.", projT: "Muslim Companion", contactT: "Get In Touch" },
-            ar: { homeT: "أهلاً بك في المستقبل", homeD: "أرناف تيك هو استوديو متخصص يركز على التجارب الرقمية الراقية.", aboutT: "بنيت للأمة", aboutD: "نحن نجمع بين التصميم الحديث والقيم الإسلامية.", projT: "رفيق المسلم", contactT: "تواصل معنا" },
-            ur: { homeT: "مستقبل میں خوش آمدید", homeD: "ارناف ٹیک ایک خصوصی اسٹوڈیو ہے جو جدید ترین ڈیجیٹل تجربات پر توجہ مرکوز کرتا ہے۔", aboutT: "امت کے لیے بنایا گیا", aboutD: "ہم جدید ڈیزائن کو اسلامی اقدار کے ساتھ جوڑتے ہیں۔", projT: "مسلم ساتھی", contactT: "رابطہ کریں" }
+            en: { 
+                theme: "Theme", studio: "TECH STUDIO",
+                m1: "Home", m2: "About", m3: "Projects", m4: "Contact",
+                homeT: "Welcome to the Future.", homeD: "Arnaf Tech is a specialized studio focusing on high-end digital experiences.", 
+                aboutT: "Built for the Ummah.", aboutD: "We merge modern design with Islamic values.", 
+                projT: "Muslim Companion", contactT: "Get In Touch" 
+            },
+            ar: { 
+                theme: "سمة", studio: "استوديو تقني",
+                m1: "الرئيسية", m2: "من نحن", m3: "المشاريع", m4: "اتصل بنا",
+                homeT: "أهلاً بك في المستقبل", homeD: "أرناف تيك هو استوديو متخصص يركز على التجارب الرقمية الراقية.", 
+                aboutT: "بنيت للأمة", aboutD: "نحن نجمع بين التصميم الحديث والقيم الإسلامية.", 
+                projT: "رفيق المسلم", contactT: "تواصل معنا" 
+            },
+            ur: { 
+                theme: "تھیم", studio: "ٹیک اسٹوڈیو",
+                m1: "ہوم", m2: "ہمارے بارے میں", m3: "منصوبے", m4: "رابطہ",
+                homeT: "مستقبل میں خوش آمدید", homeD: "ارناف ٹیک ایک خصوصی اسٹوڈیو ہے جو جدید ترین ڈیجیٹل تجربات پر توجہ مرکوز کرتا ہے۔", 
+                aboutT: "امت کے لیے بنایا گیا", aboutD: "ہم جدید ڈیزائن کو اسلامی اقدار کے ساتھ جوڑتے ہیں۔", 
+                projT: "مسلم ساتھی", contactT: "رابطہ کریں" 
+            }
         };
 
         function setLang(lang) {
             const d = langData[lang];
+            
+            // Nav & Hero
+            document.getElementById('nav-theme').innerText = d.theme;
+            document.getElementById('hero-subtitle').innerText = d.studio;
+
+            // Menu Items
+            document.getElementById('menu-home').innerText = d.m1;
+            document.getElementById('menu-about').innerText = d.m2;
+            document.getElementById('menu-projects').innerText = d.m3;
+            document.getElementById('menu-contact').innerText = d.m4;
+
+            // Page Content
             document.getElementById('home-title').innerText = d.homeT;
             document.getElementById('home-desc').innerText = d.homeD;
             document.getElementById('about-title').innerText = d.aboutT;
             document.getElementById('about-desc').innerText = d.aboutD;
             document.getElementById('proj-title').innerText = d.projT;
             document.getElementById('contact-title').innerText = d.contactT;
+            
+            // Direction Support (RTL/LTR)
             document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
         }
 
