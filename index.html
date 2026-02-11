@@ -23,148 +23,88 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        
         html, body { overflow: hidden; width: 100%; height: 100%; }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text);
-            display: flex; justify-content: center; align-items: center;
-            padding: 20px;
+            background-color: var(--bg); color: var(--text);
+            display: flex; justify-content: center; align-items: center; padding: 20px;
         }
 
-        /* The Animated Glowing Ring */
         .outer-ring {
-            position: relative;
-            width: 100%; max-width: 1200px;
-            height: 95vh;
-            padding: 3px; 
-            border-radius: 24px;
+            position: relative; width: 100%; max-width: 1200px; height: 95vh;
+            padding: 3px; border-radius: 24px;
             background: var(--ring-glow);
             box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
             animation: borderRotate 6s linear infinite;
         }
 
-        @keyframes borderRotate {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
+        @keyframes borderRotate { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
         .main-container {
-            background: var(--bg);
-            width: 100%; height: 100%;
-            border-radius: 22px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            position: relative;
-            backdrop-filter: blur(10px);
-            scrollbar-width: none; /* Firefox */
+            background: var(--bg); width: 100%; height: 100%;
+            border-radius: 22px; overflow-y: auto; overflow-x: hidden;
+            position: relative; scrollbar-width: none;
         }
-
-        /* Hide Scrollbar */
         .main-container::-webkit-scrollbar { display: none; }
 
-        /* DOTTED SCROLLER UI */
+        /* DOTTED SCROLLER */
         .dot-nav {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
+            position: absolute; right: 25px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 1000;
         }
+        .dot { width: 8px; height: 8px; background: var(--text); opacity: 0.2; border-radius: 50%; cursor: pointer; }
+        .dot.active { opacity: 1; background: var(--accent); box-shadow: 0 0 10px var(--accent); transform: scale(1.4); }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--text);
-            opacity: 0.2;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .dot.active {
-            opacity: 1;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-            transform: scale(1.4);
-        }
-
-        /* 3D ARNAF Header Box */
+        /* HERO BOX WITH WRITING ANIMATION */
         .hero-box {
-            background: var(--accent-2);
-            margin: 20px; border-radius: 20px;
-            padding: 70px 20px;
-            text-align: center;
+            background: var(--accent-2); margin: 20px; border-radius: 20px;
+            padding: 100px 20px; text-align: center;
             position: relative; overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex; justify-content: center; align-items: center;
         }
 
-        .hero-box::before {
-            content: ''; position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shine 8s infinite linear;
+        .character {
+            width: 100px; height: auto; position: absolute; bottom: 0; z-index: 6;
         }
 
-        @keyframes shine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .char-woman { left: 5%; animation: slideInWoman 1.5s ease-out forwards; }
+        .char-man { right: 5%; animation: slideInMan 1.5s ease-out forwards; }
+
+        @keyframes slideInWoman { from { transform: translateX(-100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInMan { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* SVG WRITING EFFECT */
+        .writing-svg {
+            width: 300px; height: auto; z-index: 5;
+        }
+        .arnaf-path {
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: writeText 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+            animation-delay: 1s;
         }
 
-        .brand-name {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 800; color: white;
-            letter-spacing: -3px;
-            text-shadow: 5px 5px 0px rgba(0,0,0,0.1);
-            transform: perspective(500px) rotateX(10deg);
+        @keyframes writeText {
+            to { stroke-dashoffset: 0; }
         }
 
-        /* Nav & Controls */
         nav {
             padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; background: var(--glass); backdrop-filter: blur(15px); z-index: 100;
         }
+        .nav-link { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; cursor: pointer; opacity: 0.6; }
 
-        .nav-link { 
-            font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; opacity: 0.6;
-        }
-        .nav-link:hover { opacity: 1; color: var(--accent); }
-
-        /* Content */
         .content { padding: 30px; max-width: 900px; margin: 0 auto; }
-        .section-tag { color: var(--accent); font-weight: 800; font-size: 0.75rem; margin-bottom: 8px; display: block; }
-        
-        .gallery {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0;
-        }
-        .gallery img {
-            width: 100%; border-radius: 12px; 
-            filter: brightness(0.9);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
+        .gallery img { width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        .contact-pill {
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            padding: 18px; border-radius: 50px; text-align: center;
-            font-weight: 600; font-size: 1rem; color: var(--accent);
-        }
-
-        [lang="ur"] { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; }
-        [lang="ar"] { font-family: 'Amiri', serif; direction: rtl; }
+        .contact-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 50px; text-align: center; color: var(--accent); font-weight: 700; }
 
         footer { text-align: center; padding: 40px; opacity: 0.4; font-size: 0.7rem; }
-
-        @media (max-width: 768px) {
-            .gallery { grid-template-columns: repeat(2, 1fr); }
-            body { padding: 8px; }
-            .hero-box { padding: 40px 10px; margin: 10px; }
-            .dot-nav { right: 10px; }
-        }
     </style>
 </head>
 <body data-theme="dark">
@@ -188,21 +128,24 @@
             </nav>
 
             <header class="hero-box" id="hero">
-                <h1 class="brand-name">ARNAF</h1>
-                <p style="color: rgba(255,255,255,0.7); letter-spacing: 8px; font-size: 0.7rem; margin-top: 5px;">PREMIUM STUDIO</p>
+                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" class="character char-woman" alt="Woman">
+                
+                <svg viewBox="0 0 400 100" class="writing-svg">
+                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="arnaf-path" font-family="Arial" font-size="70" font-weight="900">
+                      ARNAF
+                    </text>
+                </svg>
+                
+                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140061.png" class="character char-man" alt="Man">
             </header>
 
             <main class="content">
                 <section id="vision" style="margin-bottom: 80px;">
-                    <span class="section-tag">/ VISION</span>
                     <h2 id="about-title" style="font-size: 2rem; margin-bottom: 15px;">Built for the Ummah.</h2>
-                    <p id="about-desc" style="font-size: 1rem; opacity: 0.7; line-height: 1.6;">
-                        ARNAF TECH merges modern design with Islamic values. Our mission is to provide clean, ad-free digital tools for your spiritual journey.
-                    </p>
+                    <p id="about-desc" style="opacity: 0.7;">ARNAF TECH merges modern design with Islamic values.</p>
                 </section>
 
                 <section id="projects" style="margin-bottom: 80px;">
-                    <span class="section-tag">/ PROJECTS</span>
                     <h2 style="font-size: 1.6rem;">Muslim Companion</h2>
                     <div class="gallery">
                         <img src="android_1.png" alt="1"><img src="android_2.png" alt="2"><img src="android_3.png" alt="3">
@@ -210,17 +153,12 @@
                     </div>
                 </section>
 
-                <section id="support" style="margin-bottom: 40px;">
-                    <span class="section-tag">/ SUPPORT</span>
-                    <div class="contact-pill">
-                        mail2arsilkhan@gmail.com
-                    </div>
+                <section id="support">
+                    <div class="contact-pill">mail2arsilkhan@gmail.com</div>
                 </section>
             </main>
 
-            <footer>
-                ARNAF TECH &copy; 2026
-            </footer>
+            <footer>ARNAF TECH &copy; 2026</footer>
         </div>
     </div>
 
@@ -229,25 +167,17 @@
         const dots = document.querySelectorAll('.dot');
         const sections = ['hero', 'vision', 'projects', 'support'];
 
-        // Scroll logic
-        function goSec(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
+        function goSec(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
 
-        // Dot Update Logic
         scrollBox.addEventListener('scroll', () => {
             let activeId = "";
             sections.forEach(id => {
                 const el = document.getElementById(id);
-                if (scrollBox.scrollTop >= (el.offsetTop - 150)) {
-                    activeId = id;
-                }
+                if (scrollBox.scrollTop >= (el.offsetTop - 150)) { activeId = id; }
             });
             dots.forEach(dot => {
                 dot.classList.remove('active');
-                if (dot.getAttribute('onclick').includes(activeId)) {
-                    dot.classList.add('active');
-                }
+                if (dot.getAttribute('onclick').includes(activeId)) { dot.classList.add('active'); }
             });
         });
 
@@ -256,17 +186,15 @@
             body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         }
 
-        const data = {
-            en: { aboutT: "Built for the Ummah.", aboutD: "ARNAF TECH merges modern design with Islamic values. Our mission is to provide clean, ad-free digital tools for your spiritual journey." },
-            ar: { aboutT: "بنيت للأمة", aboutD: "تجمع أرناف تيك بين التصميم الحديث والقيم الإسلامية. مهمتنا هي توفير أدوات رقمية نظيفة وخالية من الإعلانات لرحلتك الروحية." },
-            ur: { aboutT: "امت کے لیے بنایا گیا", aboutD: "ارناف ٹیک جدید ڈیزائن کو اسلامی اقدار کے ساتھ ملاتا ہے۔ ہمارا مشن آپ کے روحانی سفر کے لیے صاف ستھرا، اشتہارات سے پاک ڈیجیٹل ٹولز فراہم کرنا ہے۔" }
-        };
-
         function setLang(lang) {
-            document.getElementById('about-title').innerText = data[lang].aboutT;
-            document.getElementById('about-desc').innerText = data[lang].aboutD;
+            const translations = {
+                en: { t: "Built for the Ummah.", d: "ARNAF TECH merges modern design with Islamic values." },
+                ar: { t: "بنيت للأمة", d: "تجمع أرناف تيك بين التصميم الحديث والقيم الإسلامية." },
+                ur: { t: "امت کے لیے بنایا گیا", d: "ارناف ٹیک جدید ڈیزائن کو اسلامی اقدار کے ساتھ ملاتا ہے۔" }
+            };
+            document.getElementById('about-title').innerText = translations[lang].t;
+            document.getElementById('about-desc').innerText = translations[lang].d;
             document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
-            document.body.setAttribute('lang', lang);
         }
     </script>
 </body>
