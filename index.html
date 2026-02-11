@@ -3,191 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARNAF TECH | Multi-Language Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <title>ARNAF TECH | Excellence in Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Theme (Default) */
-            --bg: #f8fafc;
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --text-main: #0f172a;
-            --text-dim: #475569;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --accent-1: #10b981; /* Emerald */
-            --accent-2: #3b82f6; /* Blue */
-            --accent-3: #6366f1; /* Indigo */
+            --bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-dim: #86868b;
+            --accent: #10b981;
+            --nav-blur: rgba(255, 255, 255, 0.8);
+            --border: #f2f2f2;
         }
 
         [data-theme="dark"] {
-            --bg: #0f172a;
-            --nav-bg: rgba(15, 23, 42, 0.9);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --card-bg: #1e293b;
-            --border: #334155;
+            --bg: #000000;
+            --text-main: #f5f5f7;
+            --text-dim: #86868b;
+            --nav-blur: rgba(0, 0, 0, 0.8);
+            --border: #1d1d1f;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; transition: background 0.3s, color 0.3s; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            line-height: 1.5; 
+        }
 
-        /* Navigation */
+        /* Nav Bar - Clean & Floating */
         nav { 
-            padding: 12px 8%; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; background: var(--nav-bg); backdrop-filter: blur(10px); z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-        .logo-3d { font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; color: var(--text-main); }
-
-        .controls { display: flex; align-items: center; gap: 15px; }
-        .theme-toggle { 
-            background: var(--border); border: none; padding: 8px; border-radius: 50%; cursor: pointer; font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center;
+            padding: 20px 10%; 
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: var(--nav-blur); 
+            backdrop-filter: saturate(180%) blur(20px); z-index: 1000;
         }
 
-        .lang-switcher {
-            display: flex; gap: 5px; background: var(--border); padding: 4px; border-radius: 50px;
-        }
-        .lang-btn {
-            background: transparent; border: none; color: var(--text-main);
-            padding: 4px 10px; border-radius: 50px; cursor: pointer; font-size: 0.7rem; font-weight: 700;
-        }
-        .lang-btn.active { background: var(--card-bg); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 2px; }
 
-        /* ARNAF Header Box */
-        .hero { padding: 40px 8%; display: flex; justify-content: center; }
-        .hero-box {
-            background: var(--card-bg); border: 2px solid var(--accent-2); padding: 40px; border-radius: 30px;
-            text-align: center; width: 100%; max-width: 800px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        }
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; color: var(--accent-2);
-            text-shadow: 2px 2px 0px var(--border);
-        }
-
-        /* Multiple Color Cards */
-        .section { padding: 20px 8%; max-width: 1100px; margin: 0 auto; display: grid; gap: 20px; }
+        .controls { display: flex; align-items: center; gap: 20px; }
         
-        .card { padding: 30px; border-radius: 24px; border: 1px solid var(--border); background: var(--card-bg); }
-        
-        /* Specific Styles for Sections */
-        .about-card { border-left: 8px solid var(--accent-1); }
-        .project-card { border-left: 8px solid var(--accent-2); }
-        .contact-card { border-left: 8px solid var(--accent-3); }
-
-        h2 { margin-bottom: 10px; font-size: 1.5rem; }
-        p { color: var(--text-dim); }
-
-        .gallery {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px; margin-top: 20px;
+        .theme-btn { 
+            background: none; border: none; cursor: pointer; font-size: 1.1rem; 
+            color: var(--text-main); opacity: 0.6;
         }
-        .gallery img { width: 100%; border-radius: 15px; border: 1px solid var(--border); transition: 0.3s; }
-        .gallery img:hover { transform: translateY(-5px); border-color: var(--accent-2); }
+        .theme-btn:hover { opacity: 1; }
 
+        .lang-switch { display: flex; gap: 10px; font-size: 0.75rem; font-weight: 600; }
+        .lang-switch span { cursor: pointer; opacity: 0.4; }
+        .lang-switch span.active { opacity: 1; color: var(--accent); }
+
+        /* ARNAF Typography Section */
+        .hero { 
+            height: 60vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
+        }
+        .brand-name { 
+            font-size: clamp(4rem, 12vw, 8rem); font-weight: 800; 
+            letter-spacing: -0.05em; margin-bottom: 10px;
+        }
+
+        /* Content - Modern Grid */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 10% 100px; }
+
+        .content-row { 
+            padding: 60px 0; border-top: 1px solid var(--border);
+            display: grid; grid-template-columns: 1fr 2fr; gap: 40px;
+        }
+
+        .label { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        .heading { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.02em; }
+        .desc { color: var(--text-dim); font-size: 1.1rem; max-width: 500px; }
+
+        /* Gallery - No Cards, just clean images */
+        .gallery { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px; 
+        }
+        .gallery img { 
+            width: 100%; border-radius: 12px; filter: grayscale(20%);
+        }
+        .gallery img:hover { filter: grayscale(0%); transform: scale(1.02); }
+
+        /* RTL Handling */
         [lang="ur"] { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; }
         [lang="ar"] { font-family: 'Amiri', serif; direction: rtl; }
 
-        footer { text-align: center; padding: 40px; font-size: 0.8rem; opacity: 0.7; }
+        footer { padding: 40px; text-align: center; font-size: 0.75rem; opacity: 0.4; }
 
+        @media (max-width: 768px) {
+            .content-row { grid-template-columns: 1fr; gap: 20px; }
+            .gallery { grid-template-columns: repeat(2, 1fr); }
+            .hero { height: 40vh; }
+        }
     </style>
 </head>
 <body data-theme="light">
 
     <nav>
-        <div class="logo-3d">ARNAF</div>
+        <div class="logo">ARNAF</div>
         <div class="controls">
-            <button class="theme-toggle" onclick="toggleTheme()" title="Switch Theme">🌓</button>
-            <div class="lang-switcher">
-                <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
-                <button class="lang-btn" onclick="setLanguage('ar')">عربي</button>
-                <button class="lang-btn" onclick="setLanguage('ur')">اردو</button>
+            <button class="theme-btn" onclick="toggleTheme()">○</button>
+            <div class="lang-switch">
+                <span id="en-btn" class="active" onclick="setLang('en')">EN</span>
+                <span id="ar-btn" onclick="setLang('ar')">AR</span>
+                <span id="ur-btn" onclick="setLang('ur')">UR</span>
             </div>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="hero-box">
-            <h1 class="hero-title">ARNAF</h1>
-            <p id="hero-sub" style="font-weight: 800; letter-spacing: 5px; color: var(--accent-2);">TECH STUDIO</p>
-        </div>
+        <h1 class="brand-name">ARNAF</h1>
+        <p id="subheading" style="opacity: 0.5; font-weight: 500; letter-spacing: 0.3em;">DIGITAL STUDIO</p>
     </header>
 
-    <main class="section">
-        <div class="card about-card">
-            <h2 id="about-title" style="color: var(--accent-1);">Built for the Ummah.</h2>
-            <p id="about-text">ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications.</p>
-        </div>
-
-        <div class="card project-card">
-            <h2 id="proj-title" style="color: var(--accent-2);">Our Projects</h2>
-            <p>Premium Muslim Companion Apps</p>
-            <div class="gallery">
-                <img src="android_1.png" alt="1"><img src="android_2.png" alt="2">
-                <img src="android_3.png" alt="3"><img src="android_4.png" alt="4">
-                <img src="android_5.png" alt="5"><img src="android_6.png" alt="6">
+    <main class="container">
+        <div class="content-row">
+            <div class="label" id="label-about">The Vision</div>
+            <div>
+                <h2 class="heading" id="about-title">Built for the Ummah.</h2>
+                <p class="desc" id="about-desc">ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications. We believe technology should serve faith with elegance.</p>
             </div>
         </div>
 
-        <div class="card contact-card">
-            <h2 id="contact-title" style="color: var(--accent-3);">Get in Touch</h2>
-            <p>For support or collaborations: <b>mail2arsilkhan@.com</b></p>
+        <div class="content-row">
+            <div class="label" id="label-work">The Work</div>
+            <div>
+                <h2 class="heading" id="proj-title">Muslim Companion</h2>
+                <p class="desc">A masterfully crafted suite including Prayer Times, Quran, and Qibla tracking.</p>
+                <div class="gallery">
+                    <img src="android_1.png" alt="1">
+                    <img src="android_2.png" alt="2">
+                    <img src="android_3.png" alt="3">
+                    <img src="android_4.png" alt="4">
+                    <img src="android_5.png" alt="5">
+                    <img src="android_6.png" alt="6">
+                </div>
+            </div>
+        </div>
+
+        <div class="content-row">
+            <div class="label" id="label-contact">Connect</div>
+            <div>
+                <h2 class="heading" id="contact-title">Start a Conversation</h2>
+                <p class="desc">support@arnaftech.com</p>
+            </div>
         </div>
     </main>
 
-    <footer id="footer-text">ARNAF TECH &copy; 2026 | Crafting with Ihsan</footer>
+    <footer id="footer">
+        ARNAF TECH &copy; 2026 | CRAFTED WITH IHSAN
+    </footer>
 
     <script>
-        // Language Logic
-        const translations = {
+        function toggleTheme() {
+            const body = document.body;
+            const isLight = body.getAttribute('data-theme') === 'light';
+            body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+            document.querySelector('.theme-btn').innerText = isLight ? '●' : '○';
+        }
+
+        const data = {
             en: {
-                hero_sub: "TECH STUDIO",
-                about_title: "Built for the Ummah.",
-                about_text: "ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications.",
-                proj_title: "Our Projects",
-                contact_title: "Get in Touch",
-                footer: "ARNAF TECH © 2026 | Crafting with Ihsan"
+                sub: "DIGITAL STUDIO",
+                aboutT: "Built for the Ummah.",
+                aboutD: "ARNAF TECH is a digital studio dedicated to creating high-quality, ad-free Islamic applications.",
+                projT: "Muslim Companion",
+                contactT: "Start a Conversation",
+                foot: "ARNAF TECH © 2026 | CRAFTED WITH IHSAN"
             },
             ar: {
-                hero_sub: "استوديو التقنية",
-                about_title: "بنيت للأمة",
-                about_text: "أرناف تيك هو استوديو رقمي مخصص لإنشاء تطبيقات إسلامية عالية الجودة وخالية من الإعلانات.",
-                proj_title: "مشاريعنا",
-                contact_title: "اتصل بنا",
-                footer: "أرناف تيك © ٢٠٢٦ | صنع بإحسان"
+                sub: "استوديو رقمي",
+                aboutT: "بنيت للأمة",
+                aboutD: "أرناف تيك هو استوديو رقمي مخصص لإنشاء تطبيقات إسلامية عالية الجودة وخالية من الإعلانات.",
+                projT: "رفيق المسلم",
+                contactT: "تواصل معنا",
+                foot: "أرناف تيك © ٢٠٢٦ | صنع بإحسان"
             },
             ur: {
-                hero_sub: "ٹیک اسٹوڈیو",
-                about_title: "امت کے لیے بنایا گیا",
-                about_text: "ارناف ٹیک ایک ڈیجیٹل اسٹوڈیو ہے جو اعلیٰ معیار کی، اشتہارات سے پاک اسلامی ایپلی کیشنز بنانے کے لیے وقف ہے۔",
-                proj_title: "ہمارے پروجیکٹس",
-                contact_title: "رابطہ کریں",
-                footer: "ارناف ٹیک © ٢٠٢٦ | احسان کے ساتھ بنایا گیا"
+                sub: "ڈیجیٹل اسٹوڈیو",
+                aboutT: "امت کے لیے بنایا گیا",
+                aboutD: "ارناف ٹیک ایک ڈیجیٹل اسٹوڈیو ہے جو اعلیٰ معیار کی، اشتہارات سے پاک اسلامی ایپلی کیشنز بنانے کے لیے وقف ہے۔",
+                projT: "مسلم کمپینین",
+                contactT: "رابطہ کریں",
+                foot: "ارناف ٹیک © ٢٠٢٦ | احسان کے ساتھ بنایا گیا"
             }
         };
 
-        function setLanguage(lang) {
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        function setLang(lang) {
+            document.querySelectorAll('.lang-switch span').forEach(s => s.classList.remove('active'));
+            document.getElementById(lang + '-btn').classList.add('active');
 
-            document.getElementById('hero-sub').innerText = translations[lang].hero_sub;
-            document.getElementById('about-title').innerText = translations[lang].about_title;
-            document.getElementById('about-text').innerText = translations[lang].about_text;
-            document.getElementById('proj-title').innerText = translations[lang].proj_title;
-            document.getElementById('contact-title').innerText = translations[lang].contact_title;
-            document.getElementById('footer-text').innerText = translations[lang].footer;
+            document.getElementById('subheading').innerText = data[lang].sub;
+            document.getElementById('about-title').innerText = data[lang].aboutT;
+            document.getElementById('about-desc').innerText = data[lang].aboutD;
+            document.getElementById('proj-title').innerText = data[lang].projT;
+            document.getElementById('contact-title').innerText = data[lang].contactT;
+            document.getElementById('footer').innerText = data[lang].foot;
 
-            document.body.style.direction = (lang === 'ar' || lang === 'ur') ? 'rtl' : 'ltr';
+            document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
             document.body.setAttribute('lang', lang);
-        }
-
-        // Theme Logic
-        function toggleTheme() {
-            const body = document.body;
-            const current = body.getAttribute('data-theme');
-            body.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
         }
     </script>
 </body>
 </html>
-
