@@ -34,13 +34,9 @@
             padding: 20px;
         }
 
-        /* The Animated Glowing Ring */
         .outer-ring {
-            position: relative;
-            width: 100%; max-width: 1200px;
-            height: 95vh;
-            padding: 3px; 
-            border-radius: 24px;
+            position: relative; width: 100%; max-width: 1200px; height: 95vh;
+            padding: 3px; border-radius: 24px;
             background: var(--ring-glow);
             box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
             animation: borderRotate 6s linear infinite;
@@ -52,78 +48,32 @@
         }
 
         .main-container {
-            background: var(--bg);
-            width: 100%; height: 100%;
-            border-radius: 22px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            position: relative;
-            backdrop-filter: blur(10px);
-            scrollbar-width: none;
+            background: var(--bg); width: 100%; height: 100%;
+            border-radius: 22px; overflow-y: auto; overflow-x: hidden;
+            position: relative; backdrop-filter: blur(10px); scrollbar-width: none;
         }
 
         .main-container::-webkit-scrollbar { display: none; }
 
-        /* DOTTED SCROLLER UI */
+        /* DOTTED SCROLLER */
         .dot-nav {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
+            position: absolute; right: 25px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 1000;
         }
+        .dot { width: 8px; height: 8px; background: var(--text); opacity: 0.2; border-radius: 50%; cursor: pointer; }
+        .dot.active { opacity: 1; background: var(--accent); box-shadow: 0 0 10px var(--accent); transform: scale(1.4); }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--text);
-            opacity: 0.2;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .dot.active {
-            opacity: 1;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-            transform: scale(1.4);
-        }
-
-        /* 3D ARNAF Header Box */
+        /* HERO BOX */
         .hero-box {
-            background: var(--accent-2);
-            margin: 20px; border-radius: 20px;
-            padding: 100px 20px;
-            text-align: center;
+            background: var(--accent-2); margin: 20px; border-radius: 20px;
+            padding: 100px 20px; text-align: center;
             position: relative; overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        .hero-box::before {
-            content: ''; position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shine 8s infinite linear;
-        }
-
-        @keyframes shine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* ARNAF Writing Animation */
-        .arnaf-svg {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-        }
+        /* LOOPING WRITING ANIMATION */
+        .arnaf-svg { width: 100%; max-width: 500px; height: auto; }
 
         .arnaf-stroke {
             fill: transparent;
@@ -134,71 +84,46 @@
             font-size: 90px;
             font-weight: 800;
             letter-spacing: -3px;
-            animation: writeArnaf 2.5s ease-out forwards;
+            /* Looping: write (2s), stay (2s), hide/reverse (1s) */
+            animation: writeLoop 5s ease-in-out infinite;
         }
 
-        @keyframes writeArnaf {
-            70% { fill: transparent; stroke-dashoffset: 0; }
-            100% { fill: white; stroke-dashoffset: 0; }
+        @keyframes writeLoop {
+            0%, 10% { stroke-dashoffset: 800; fill: transparent; }
+            40% { stroke-dashoffset: 0; fill: transparent; }
+            50%, 90% { stroke-dashoffset: 0; fill: white; }
+            100% { stroke-dashoffset: 800; fill: transparent; }
         }
 
         .sub-brand {
-            font-size: 0.9rem;
-            letter-spacing: 12px;
-            text-transform: uppercase;
-            font-weight: 400;
-            margin-top: 10px;
-            color: rgba(255,255,255,0.8);
-            opacity: 0;
-            animation: fadeInSub 1s ease-out forwards;
-            animation-delay: 2.2s;
+            font-size: 0.9rem; letter-spacing: 12px; text-transform: uppercase;
+            font-weight: 400; margin-top: 10px; color: rgba(255,255,255,0.8);
+            animation: fadeInOut 5s ease-in-out infinite;
         }
 
-        @keyframes fadeInSub {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInOut {
+            0%, 45% { opacity: 0; transform: translateY(10px); }
+            55%, 90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; }
         }
 
-        /* Nav & Controls */
         nav {
             padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; background: var(--glass); backdrop-filter: blur(15px); z-index: 100;
         }
-
-        .nav-link { 
-            font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; opacity: 0.6;
-        }
+        .nav-link { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; opacity: 0.6; }
         .nav-link:hover { opacity: 1; color: var(--accent); }
 
-        /* Content */
         .content { padding: 30px; max-width: 900px; margin: 0 auto; }
-        .section-tag { color: var(--accent); font-weight: 800; font-size: 0.75rem; margin-bottom: 8px; display: block; }
-        
-        .gallery {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0;
-        }
-        .gallery img {
-            width: 100%; border-radius: 12px; 
-            filter: brightness(0.9);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .contact-pill {
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            padding: 18px; border-radius: 50px; text-align: center;
-            font-weight: 600; font-size: 1rem; color: var(--accent);
-        }
-
-        [lang="ur"] { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; }
-        [lang="ar"] { font-family: 'Amiri', serif; direction: rtl; }
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
+        .gallery img { width: 100%; border-radius: 12px; filter: brightness(0.9); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .contact-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 50px; text-align: center; font-weight: 600; color: var(--accent); }
 
         footer { text-align: center; padding: 40px; opacity: 0.4; font-size: 0.7rem; }
 
         @media (max-width: 768px) {
             .gallery { grid-template-columns: repeat(2, 1fr); }
-            body { padding: 8px; }
-            .hero-box { padding: 60px 10px; margin: 10px; }
+            .hero-box { padding: 60px 10px; }
             .arnaf-stroke { font-size: 60px; }
             .sub-brand { font-size: 0.6rem; letter-spacing: 6px; }
         }
@@ -235,7 +160,6 @@
 
             <main class="content">
                 <section id="vision" style="margin-bottom: 80px;">
-                    <span class="section-tag">/ VISION</span>
                     <h2 id="about-title" style="font-size: 2rem; margin-bottom: 15px;">Built for the Ummah.</h2>
                     <p id="about-desc" style="font-size: 1rem; opacity: 0.7; line-height: 1.6;">
                         ARNAF TECH merges modern design with Islamic values. Our mission is to provide clean, ad-free digital tools for your spiritual journey.
@@ -243,7 +167,6 @@
                 </section>
 
                 <section id="projects" style="margin-bottom: 80px;">
-                    <span class="section-tag">/ PROJECTS</span>
                     <h2 style="font-size: 1.6rem;">Muslim Companion</h2>
                     <div class="gallery">
                         <img src="android_1.png" alt="1"><img src="android_2.png" alt="2"><img src="android_3.png" alt="3">
@@ -252,16 +175,11 @@
                 </section>
 
                 <section id="support" style="margin-bottom: 40px;">
-                    <span class="section-tag">/ SUPPORT</span>
-                    <div class="contact-pill">
-                        mail2arsilkhan@gmail.com
-                    </div>
+                    <div class="contact-pill">mail2arsilkhan@gmail.com</div>
                 </section>
             </main>
 
-            <footer>
-                ARNAF TECH &copy; 2026
-            </footer>
+            <footer>ARNAF TECH &copy; 2026</footer>
         </div>
     </div>
 
@@ -270,23 +188,17 @@
         const dots = document.querySelectorAll('.dot');
         const sections = ['hero', 'vision', 'projects', 'support'];
 
-        function goSec(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
+        function goSec(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
 
         scrollBox.addEventListener('scroll', () => {
             let activeId = "";
             sections.forEach(id => {
                 const el = document.getElementById(id);
-                if (scrollBox.scrollTop >= (el.offsetTop - 150)) {
-                    activeId = id;
-                }
+                if (scrollBox.scrollTop >= (el.offsetTop - 150)) { activeId = id; }
             });
             dots.forEach(dot => {
                 dot.classList.remove('active');
-                if (dot.getAttribute('onclick').includes(activeId)) {
-                    dot.classList.add('active');
-                }
+                if (dot.getAttribute('onclick').includes(activeId)) { dot.classList.add('active'); }
             });
         });
 
@@ -296,16 +208,15 @@
         }
 
         const data = {
-            en: { aboutT: "Built for the Ummah.", aboutD: "ARNAF TECH merges modern design with Islamic values. Our mission is to provide clean, ad-free digital tools for your spiritual journey." },
-            ar: { aboutT: "بنيت للأمة", aboutD: "تجمع أرناف تيك بين التصميم الحديث والقيم الإسلامية. مهمتنا هي توفير أدوات رقمية نظيفة وخالية من الإعلانات لرحلتك الروحية." },
-            ur: { aboutT: "امت کے لیے بنایا گیا", aboutD: "ارناف ٹیک جدید ڈیزائن کو اسلامی اقدار کے ساتھ ملاتا ہے۔ ہمارا مشن آپ کے روحانی سفر کے لیے صاف ستھرا، اشتہارات سے پاک ڈیجیٹل ٹولز فراہم کرنا ہے۔" }
+            en: { aboutT: "Built for the Ummah.", aboutD: "ARNAF TECH merges modern design with Islamic values." },
+            ar: { aboutT: "بنيت للأمة", aboutD: "تجمع أرناف تيك بين التصميم الحديث والقيم الإسلامية." },
+            ur: { aboutT: "امت کے لیے بنایا گیا", aboutD: "ارناف ٹیک جدید ڈیزائن کو اسلامی اقدار کے ساتھ ملاتا ہے۔" }
         };
 
         function setLang(lang) {
             document.getElementById('about-title').innerText = data[lang].aboutT;
             document.getElementById('about-desc').innerText = data[lang].aboutD;
             document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
-            document.body.setAttribute('lang', lang);
         }
     </script>
 </body>
