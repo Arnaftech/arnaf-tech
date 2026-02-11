@@ -32,6 +32,7 @@
             color: var(--text);
             display: flex; justify-content: center; align-items: center;
             padding: 20px;
+            user-select: none; /* Prevents text highlighting */
         }
 
         .outer-ring {
@@ -55,7 +56,6 @@
 
         .main-container::-webkit-scrollbar { display: none; }
 
-        /* DOTTED SCROLLER */
         .dot-nav {
             position: absolute; right: 25px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 15px; z-index: 1000;
@@ -63,7 +63,6 @@
         .dot { width: 8px; height: 8px; background: var(--text); opacity: 0.2; border-radius: 50%; cursor: pointer; }
         .dot.active { opacity: 1; background: var(--accent); box-shadow: 0 0 10px var(--accent); transform: scale(1.4); }
 
-        /* HERO BOX */
         .hero-box {
             background: var(--accent-2); margin: 20px; border-radius: 20px;
             padding: 100px 20px; text-align: center;
@@ -72,7 +71,6 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* LOOPING WRITING ANIMATION */
         .arnaf-svg { width: 100%; max-width: 500px; height: auto; }
 
         .arnaf-stroke {
@@ -84,7 +82,6 @@
             font-size: 90px;
             font-weight: 800;
             letter-spacing: -3px;
-            /* Looping: write (2s), stay (2s), hide/reverse (1s) */
             animation: writeLoop 5s ease-in-out infinite;
         }
 
@@ -184,6 +181,16 @@
     </div>
 
     <script>
+        /* SECURITY: DISABLE RIGHT CLICK & INSPECT KEYS */
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false; // F12
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
+        };
+
         const scrollBox = document.getElementById('mainScroll');
         const dots = document.querySelectorAll('.dot');
         const sections = ['hero', 'vision', 'projects', 'support'];
